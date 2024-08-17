@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import com.tamerlan.composition.R
-import com.tamerlan.composition.databinding.FragmentWelcomeBinding
+import com.tamerlan.composition.databinding.FragmentChooseLevelBinding
+import com.tamerlan.composition.domain.entity.Level
 import java.lang.RuntimeException
 
 // TODO: Rename parameter arguments, choose names that match
@@ -16,17 +18,16 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [WelcomeFragment.newInstance] factory method to
+ * Use the [ChooseLevelFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class WelcomeFragment : Fragment() {
+class ChooseLevelFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
-    private var _binding: FragmentWelcomeBinding? = null
-    private val binding: FragmentWelcomeBinding
-        get() = _binding ?: throw RuntimeException("FragmentWelcomeBinding == null")
+    private var _binding: FragmentChooseLevelBinding? = null
+    private val binding: FragmentChooseLevelBinding
+        get() = _binding ?: throw RuntimeException("FragmentChooseLevelBinding == null")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,28 +37,18 @@ class WelcomeFragment : Fragment() {
         }
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentWelcomeBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
+        _binding = FragmentChooseLevelBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.buttonUnderstand.setOnClickListener{
-            launchChooseLevelFragment()
-        }
-    }
-
-    private fun launchChooseLevelFragment(){
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, ChooseLevelFragment.newInstance())
-            .addToBackStack(ChooseLevelFragment.NAME)
-            .commit()
+        chooseLevel()
     }
 
     override fun onDestroyView() {
@@ -65,22 +56,28 @@ class WelcomeFragment : Fragment() {
         _binding = null
     }
 
+    private fun chooseLevel() {
+        with(binding) {
+            buttonLevelTest.setOnClickListener { launchGameFragment(Level.TEST) }
+            buttonLevelEasy.setOnClickListener { launchGameFragment(Level.EASY) }
+            buttonLevelNormal.setOnClickListener { launchGameFragment(Level.NORMAL) }
+            buttonLevelHard.setOnClickListener { launchGameFragment(Level.HARD) }
+        }
+    }
+
+    private fun launchGameFragment(level: Level) {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.main_container, GameFragment.newInstance(level))
+            .addToBackStack(GameFragment.NAME)
+            .commit()
+    }
+
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment WelcomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            WelcomeFragment().apply {
+        const val NAME = "ChooseLevelFragment"
+        fun newInstance() =
+            ChooseLevelFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+
                 }
             }
     }
