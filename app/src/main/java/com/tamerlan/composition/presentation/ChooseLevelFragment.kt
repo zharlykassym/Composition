@@ -6,21 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.fragment.findNavController
 import com.tamerlan.composition.R
 import com.tamerlan.composition.databinding.FragmentChooseLevelBinding
 import com.tamerlan.composition.domain.entity.Level
+import com.tamerlan.composition.presentation.GameFragment.Companion.KEY_LEVEL
 import java.lang.RuntimeException
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ChooseLevelFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ChooseLevelFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -31,10 +23,7 @@ class ChooseLevelFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
@@ -66,10 +55,15 @@ class ChooseLevelFragment : Fragment() {
     }
 
     private fun launchGameFragment(level: Level) {
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, GameFragment.newInstance(level))
-            .addToBackStack(GameFragment.NAME)
-            .commit()
+//        requireActivity().supportFragmentManager.beginTransaction()
+//            .replace(R.id.main_container, GameFragment.newInstance(level))
+//            .addToBackStack(GameFragment.NAME)
+//            .commit()
+
+        val args = Bundle().apply { putParcelable(KEY_LEVEL, level) }
+        findNavController().navigate(
+            ChooseLevelFragmentDirections.actionChooseLevelFragmentToGameFragment(level)
+        )
     }
 
     companion object {

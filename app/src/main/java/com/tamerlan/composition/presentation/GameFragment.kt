@@ -10,6 +10,8 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.*
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.tamerlan.composition.R
 import com.tamerlan.composition.databinding.FragmentGameBinding
 import com.tamerlan.composition.databinding.FragmentGameFinishedBinding
@@ -19,12 +21,13 @@ import com.tamerlan.composition.domain.entity.Level
 import java.lang.RuntimeException
 
 class GameFragment : Fragment() {
-    private lateinit var level: Level
+//    private lateinit var level: Level
 
     private var percent: Int? = null
+    private val args by navArgs<GameFragmentArgs>()
 
     private val viewModelFactory by lazy {
-        GameViewModelFactory(level, requireActivity().application)
+        GameViewModelFactory(args.level, requireActivity().application)
     }
 
     private val viewModel by lazy {
@@ -39,7 +42,7 @@ class GameFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        parseArgs()
+//        parseArgs()
     }
 
     override fun onCreateView(
@@ -133,23 +136,29 @@ class GameFragment : Fragment() {
         _binding = null
     }
 
-    private fun parseArgs() {
-        requireArguments().getParcelable<Level>(KEY_LEVEL)?.let {
-            level = it
-        }
-    }
+//    private fun parseArgs() {
+//        requireArguments().getParcelable<Level>(KEY_LEVEL)?.let {
+//            level = it
+//        }
+//    }
 
 
     private fun launchGameFinishedFragment(gameResult: GameResult, percent: Int) {
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, GameFinishedFragment.newInstance(gameResult, percent))
-            .addToBackStack(null)
-            .commit()
+//        requireActivity().supportFragmentManager.beginTransaction()
+//            .replace(R.id.main_container, GameFinishedFragment.newInstance(gameResult, percent))
+//            .addToBackStack(null)
+//            .commit()
+
+//        val args = Bundle().apply {
+//            putParcelable(GameFinishedFragment.KEY_GAME_RESULT, gameResult)
+//            putInt(GameFinishedFragment.KEY_PERCENT_RIGHT_ANSWERS, percent)
+//        }
+        findNavController().navigate(GameFragmentDirections.actionGameFragmentToGameFinishedFragment(gameResult,percent))
     }
 
 
     companion object {
-        private const val KEY_LEVEL = "level"
+       const val KEY_LEVEL = "level"
 
         const val NAME = "GameFragment"
 
