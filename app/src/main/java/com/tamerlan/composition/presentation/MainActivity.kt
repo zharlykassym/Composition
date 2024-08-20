@@ -1,7 +1,8 @@
-package com.tamerlan.composition
+package com.tamerlan.composition.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.tamerlan.composition.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
