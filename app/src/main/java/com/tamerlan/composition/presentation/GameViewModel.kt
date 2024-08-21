@@ -64,7 +64,7 @@ class GameViewModel(
 
 
     private var countOfRightAnswers = 0
-    private var countOfQuestion = 0
+    private var countOfQuestions = 0
 
     init {
         startGame()
@@ -98,10 +98,10 @@ class GameViewModel(
     }
 
     private fun calculatePercentOfRightAnswers(): Int {
-        if (countOfQuestion == 0) {
+        if (countOfQuestions == 0) {
             return 0
         }
-        return ((countOfRightAnswers / countOfQuestion.toDouble()) * 100).toInt()
+        return ((countOfRightAnswers / countOfQuestions.toDouble()) * 100).toInt()
 
     }
 
@@ -110,7 +110,7 @@ class GameViewModel(
         if (number == rightAnswer) {
             countOfRightAnswers++
         }
-        countOfQuestion++
+        countOfQuestions++
     }
 
     private fun getGameSettings() {
@@ -150,7 +150,7 @@ class GameViewModel(
         _gameResult.value = GameResult(
             enoughCount.value == true && enoughPercent.value == true,
             countOfRightAnswers,
-            countOfQuestion,
+            countOfQuestions,
             gameSettings
         )
     }
