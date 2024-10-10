@@ -10,13 +10,10 @@ import androidx.navigation.fragment.findNavController
 import com.tamerlan.composition.R
 import com.tamerlan.composition.databinding.FragmentChooseLevelBinding
 import com.tamerlan.composition.domain.entity.Level
-import com.tamerlan.composition.presentation.GameFragment.Companion.KEY_LEVEL
 import java.lang.RuntimeException
 
 class ChooseLevelFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
     private var _binding: FragmentChooseLevelBinding? = null
     private val binding: FragmentChooseLevelBinding
         get() = _binding ?: throw RuntimeException("FragmentChooseLevelBinding == null")
@@ -55,24 +52,8 @@ class ChooseLevelFragment : Fragment() {
     }
 
     private fun launchGameFragment(level: Level) {
-//        requireActivity().supportFragmentManager.beginTransaction()
-//            .replace(R.id.main_container, GameFragment.newInstance(level))
-//            .addToBackStack(GameFragment.NAME)
-//            .commit()
-
-        val args = Bundle().apply { putParcelable(KEY_LEVEL, level) }
         findNavController().navigate(
             ChooseLevelFragmentDirections.actionChooseLevelFragmentToGameFragment(level)
         )
-    }
-
-    companion object {
-        const val NAME = "ChooseLevelFragment"
-        fun newInstance() =
-            ChooseLevelFragment().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
     }
 }
